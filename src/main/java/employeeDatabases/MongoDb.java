@@ -1,9 +1,9 @@
-package employee_Databases;
+package employeeDatabases;
 
 import com.mongodb.*;
 import java.util.*;
 
-public class mongo_db {
+public class MongoDb {
 	public Map<String, String> data = new Hashtable<>();
 	
 	public void insert_data(String database, String collection_name)

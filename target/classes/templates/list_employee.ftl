@@ -10,7 +10,7 @@
   <label for="designation">Designation:</label>
   <input type="text" id="designation" name="designation"><br><br>
   <label for="reporting_manager">Reporting Manager:</label>
-  <input type="text" id="reporting_manager" name="reporting_manager"><br><br>
+  <input type="text" id="reportingManager" name="reportingManager"><br><br>
   <label for="name">Department:</label>
   <input type="text" id="department" name="department"><br><br>
   <label for="name">Phone:</label>

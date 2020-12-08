@@ -7,8 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-public class get_json {
-	public static String get_json_from_map(Map<String, String> map_data)
+public class GetJson {
+	public static String getJsonFromMap(Map<String, String> map_data)
 	{
 		String json = "";
     	try {

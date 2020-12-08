@@ -1,4 +1,4 @@
-package employee_1.employee_1;
+package employee.Employee;
 
 import ro.pippo.core.Pippo;
 

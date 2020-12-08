@@ -1,9 +1,9 @@
-package employee_Databases;
+package employeeDatabases;
 
 import redis.clients.jedis.Jedis;
 
-public class redis_db {
-	public void set_redis_data(String key, String json_data)
+public class RedisDb {
+	public void setRedisData(String key, String json_data)
 	{
 		Jedis jedis = new Jedis("localhost");
 		jedis.set(key, json_data);

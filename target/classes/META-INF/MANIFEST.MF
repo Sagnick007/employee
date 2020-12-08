@@ -19,6 +19,6 @@ Class-Path: lib/pippo-core-1.13.1.jar lib/slf4j-api-1.7.7.jar lib/jaxb
  .jar lib/websocket-client-9.4.24.v20191120.jar lib/jetty-client-9.4.2
  4.v20191120.jar lib/websocket-servlet-9.4.24.v20191120.jar lib/jetty-
  servlet-9.4.24.v20191120.jar lib/jetty-security-9.4.24.v20191120.jar
-Main-Class: employee_1.employee_1.PippoLauncher
+Main-Class: employee.Employee.PippoLauncher
 Created-By: Maven Integration for Eclipse
 
