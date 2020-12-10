@@ -11,4 +11,12 @@ public class RedisDb {
 		jedis.expire(key, 3600);
 		jedis.close();
 	}
+	
+	public String getRedisData(String key)
+	{
+		Jedis jedis = new Jedis("localhost");
+		String data = jedis.get(key);
+		jedis.close();
+		return data;
+	}
 }

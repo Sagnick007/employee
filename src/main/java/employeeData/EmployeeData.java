@@ -23,22 +23,46 @@ public class EmployeeData {
 	
 	public String insertEmployee()
 	{
-		MongoDb mongo_obj = new MongoDb();
+		MongoDb mongoObj = new MongoDb();
 		// Get auto generated employee id
-		empId = mongo_obj.getNextSequence("emp_id").toString();
-	    mongo_obj.data.put("_id", empId);
-		mongo_obj.data.put("name", name);
-		mongo_obj.data.put("designation", designation);
-		mongo_obj.data.put("reportingManager", reportingManager);
-		mongo_obj.data.put("department", department);
-		mongo_obj.data.put("phone", phone);
-		mongo_obj.data.put("email", email);
-		mongo_obj.data.put("location", location);
-		mongo_obj.insert_data("employeedb", "employees");
+		empId = mongoObj.getNextSequence("emp_id").toString();
+		mongoObj.data.put("_id", empId);
+		mongoObj.data.put("name", name);
+		mongoObj.data.put("designation", designation);
+		mongoObj.data.put("reportingManager", reportingManager);
+		mongoObj.data.put("department", department);
+		mongoObj.data.put("phone", phone);
+		mongoObj.data.put("email", email);
+		mongoObj.data.put("location", location);
+		mongoObj.insertData("employeedb", "employees");
 		// Get the employee data in json format
-		String emp_data = new GetJson().getJsonFromMap(mongo_obj.data);
+		String empData = GetJson.getJsonFromMap(mongoObj.data);
 		// Set data in redis
-		new RedisDb().setRedisData("empId_" + empId, emp_data);
-		return emp_data;
+		new RedisDb().setRedisData("empId_" + empId, empData);
+		return empData;
+	}
+	
+	public String getEmployee()
+	{
+		String empData = getEmployeeFromRedis();
+		if(empData == null)
+		{
+			empData = getEmployeeFromMongo();
+		}
+		return empData;
+	}
+	
+	public String getEmployeeFromMongo()
+	{
+		MongoDb mongoObj = new MongoDb();
+		String empData = mongoObj.getMongoData("employeedb", "employees", "_id", empId);
+		return empData;
+	}
+	
+	public String getEmployeeFromRedis()
+	{
+		RedisDb redisObj = new RedisDb();
+		String empData = redisObj.getRedisData("empId_"+empId);
+		return empData;
 	}
 }

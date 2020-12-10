@@ -50,32 +50,43 @@ public class PippoApplication extends Application {
         	routeContext.render("list_employee");
         });
         
-        // GET("/employee/{id}", routeContext -> routeContext.send("Hello World"));
         GET("/employee/{id}", routeContext -> {
-            String id = routeContext.getParameter("id").toString(); // read parameter "id"
-            if(new PatternChecker().checkDigit(id))
+            String id = routeContext.getParameter("id").toString();
+            String db = routeContext.getParameter("db").toString();
+            db = (db == null)?"":db;
+            if(PatternChecker.checkDigit(id))
             {
-            	EmployeeData emp_obj = new EmployeeData();
-            	emp_obj.empId = id;
+            	EmployeeData empObj = new EmployeeData();
+            	empObj.empId = id;
+            	String empData = null;
+            	if(!db.equals("redis"))
+            	{
+            		empData = empObj.getEmployee();
+            	}
+            	else
+            	{
+            		empData = empObj.getEmployeeFromRedis();
+            	}
+            	if(empData != null)
+            	{
+            		routeContext.json().send(empData);
+            	}
             }
-            else
-            {
-            	routeContext.send("No employee with id:" + id + " is registered.");
-            }
+            routeContext.send("No employee with id:" + id + " is registered.");
         });
         
         POST("/employee", routeContext -> {
-        	EmployeeData emp_obj = new EmployeeData();
-        	emp_obj.name = routeContext.getParameter("name").toString();
-        	emp_obj.designation = routeContext.getParameter("designation").toString();
-        	emp_obj.reportingManager = routeContext.getParameter("reportingManager").toString();
-        	emp_obj.department = routeContext.getParameter("department").toString();
-        	emp_obj.phone = routeContext.getParameter("phone").toString();
-        	emp_obj.email = routeContext.getParameter("email").toString();
-        	emp_obj.location = routeContext.getParameter("location").toString();
-        	String emp_data = emp_obj.insertEmployee();
+        	EmployeeData empObj = new EmployeeData();
+        	empObj.name = routeContext.getParameter("name").toString();
+        	empObj.designation = routeContext.getParameter("designation").toString();
+        	empObj.reportingManager = routeContext.getParameter("reportingManager").toString();
+        	empObj.department = routeContext.getParameter("department").toString();
+        	empObj.phone = routeContext.getParameter("phone").toString();
+        	empObj.email = routeContext.getParameter("email").toString();
+        	empObj.location = routeContext.getParameter("location").toString();
+        	String empData = empObj.insertEmployee();
         	
-        	routeContext.json().send(emp_data);
+        	routeContext.json().send(empData);
         });
     }
 }
