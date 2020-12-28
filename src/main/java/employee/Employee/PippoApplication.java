@@ -7,9 +7,6 @@ import org.slf4j.LoggerFactory;
 import ro.pippo.core.Application;
 import ro.pippo.core.route.TrailingSlashHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import employeeData.EmployeeData;
 import utility.PatternChecker;
 
@@ -54,6 +51,7 @@ public class PippoApplication extends Application {
             String id = routeContext.getParameter("id").toString();
             String db = routeContext.getParameter("db").toString();
             db = (db == null)?"":db;
+            log.info("Existing employee queried with id"+id);
             if(PatternChecker.checkDigit(id))
             {
             	EmployeeData empObj = new EmployeeData();
@@ -69,13 +67,16 @@ public class PippoApplication extends Application {
             	}
             	if(empData != null)
             	{
+            		log.info("Employee found id"+id);
             		routeContext.json().send(empData);
             	}
             }
+            log.error("Employee not found.");
             routeContext.send("No employee with id:" + id + " is registered.");
         });
         
         POST("/employee", routeContext -> {
+        	log.info("New employee is entered");
         	EmployeeData empObj = new EmployeeData();
         	empObj.name = routeContext.getParameter("name").toString();
         	empObj.designation = routeContext.getParameter("designation").toString();
@@ -85,7 +86,7 @@ public class PippoApplication extends Application {
         	empObj.email = routeContext.getParameter("email").toString();
         	empObj.location = routeContext.getParameter("location").toString();
         	String empData = empObj.insertEmployee();
-        	
+        	log.info("New employee is created successfully.");
         	routeContext.json().send(empData);
         });
     }
